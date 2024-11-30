@@ -1,45 +1,41 @@
-// cmd/main.go
-package main
-
-import (
-	"fmt"
-	"log"
-	"os"
-	"telegram-chat-analyzer/internal/delivery"
-	"telegram-chat-analyzer/internal/repository"
-	"telegram-chat-analyzer/internal/usecase"
-
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
-)
-
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-	mongoURI := os.Getenv("MONGO_URI")
-	fmt.Println(mongoURI)
-	dbName := os.Getenv("MONGO_DB")
-	collection := os.Getenv("MONGO_COLLECTION")
+    // Try to load .env file, but don't fail if it doesn't exist
+    if err := godotenv.Load(); err != nil {
+        log.Println("No .env file found; falling back to environment variables.")
+    }
 
-	repo, err := repository.NewMongoRepository(mongoURI, dbName)
-	if err != nil {
-		log.Fatalf("Failed to connect to MongoDB: %v", err)
-	}
+    // Read environment variables
+    mongoURI := os.Getenv("MONGO_URI")
+    if mongoURI == "" {
+        log.Fatal("MONGO_URI is not set")
+    }
+    dbName := os.Getenv("MONGO_DB")
+    if dbName == "" {
+        log.Fatal("MONGO_DB is not set")
+    }
+    collection := os.Getenv("MONGO_COLLECTION")
+    if collection == "" {
+        log.Fatal("MONGO_COLLECTION is not set")
+    }
 
-	// Initialize use case
-	uc := usecase.NewMessageUsecase()
+    // Initialize MongoDB repository
+    repo, err := repository.NewMongoRepository(mongoURI, dbName)
+    if err != nil {
+        log.Fatalf("Failed to connect to MongoDB: %v", err)
+    }
 
-	// Set up Gin
-	r := gin.Default()
+    // Initialize use case
+    uc := usecase.NewMessageUsecase()
 
-	// Initialize handlers
-	delivery.NewMessageHandler(r, uc, repo, collection)
+    // Set up Gin
+    r := gin.Default()
 
-	// Run server
-	log.Println("Server running on port 8080")
-	if err := r.Run(":8080"); err != nil {
-		log.Fatalf("Failed to run server: %v", err)
-	}
+    // Initialize handlers
+    delivery.NewMessageHandler(r, uc, repo, collection)
+
+    // Run server
+    log.Println("Server running on port 8080")
+    if err := r.Run(":8080"); err != nil {
+        log.Fatalf("Failed to run server: %v", err)
+    }
 }
