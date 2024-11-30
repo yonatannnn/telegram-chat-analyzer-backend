@@ -24,6 +24,7 @@ func NewMessageHandler(router *gin.Engine, uc usecase.MessageUsecase, repo repos
 		repo:       repo,
 		collection: collection,
 	}
+
 	router.POST("/topSixWords", handler.ProcessMessages)                                     // return top 6 frequent words
 	router.POST("/countMessages", handler.CountMessages)                                     // count total messages sent by each person
 	router.POST("/countWords", handler.countWords)                                           // return shared interests
@@ -45,6 +46,7 @@ func NewMessageHandler(router *gin.Engine, uc usecase.MessageUsecase, repo repos
 }
 
 func (h *MessageHandler) ProcessMessages(c *gin.Context) {
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	var chat domain.Chat
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
@@ -78,6 +80,7 @@ func (h *MessageHandler) ProcessMessages(c *gin.Context) {
 
 func (h *MessageHandler) CountMessages(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -102,6 +105,7 @@ func (h *MessageHandler) CountMessages(c *gin.Context) {
 
 func (h *MessageHandler) totalDaysTalked(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -121,6 +125,7 @@ func (h *MessageHandler) totalDaysTalked(c *gin.Context) {
 
 func (h *MessageHandler) MessagesPerDay(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -140,6 +145,7 @@ func (h *MessageHandler) MessagesPerDay(c *gin.Context) {
 
 func (h *MessageHandler) WeeklyStats(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -159,6 +165,7 @@ func (h *MessageHandler) WeeklyStats(c *gin.Context) {
 
 func (h *MessageHandler) hourlyStats(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -178,6 +185,7 @@ func (h *MessageHandler) hourlyStats(c *gin.Context) {
 
 func (h *MessageHandler) MostActiveDayOfWeek(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -197,6 +205,7 @@ func (h *MessageHandler) MostActiveDayOfWeek(c *gin.Context) {
 
 func (h *MessageHandler) MessageLengthStatistics(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -216,6 +225,7 @@ func (h *MessageHandler) MessageLengthStatistics(c *gin.Context) {
 
 func (h *MessageHandler) ReplyTimeAnalysis(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -235,6 +245,7 @@ func (h *MessageHandler) ReplyTimeAnalysis(c *gin.Context) {
 
 func (h *MessageHandler) CountConversationStartersPerDay(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -258,6 +269,7 @@ func (h *MessageHandler) CountConversationStartersPerDay(c *gin.Context) {
 
 func (h *MessageHandler) CountConsecutiveDays(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -280,6 +292,7 @@ func (h *MessageHandler) CountConsecutiveDays(c *gin.Context) {
 
 func (h *MessageHandler) GetSharedInterests(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -298,6 +311,7 @@ func (h *MessageHandler) GetSharedInterests(c *gin.Context) {
 
 func (h *MessageHandler) AverageMessagesPerDay(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -317,6 +331,7 @@ func (h *MessageHandler) AverageMessagesPerDay(c *gin.Context) {
 
 func (h *MessageHandler) countWords(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -341,6 +356,7 @@ func (h *MessageHandler) countWords(c *gin.Context) {
 
 func (h *MessageHandler) RelationshipScore(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
@@ -364,6 +380,7 @@ func (h *MessageHandler) RelationshipScore(c *gin.Context) {
 
 func (h *MessageHandler) CurrentStreak(c *gin.Context) {
 	var chat domain.Chat
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
 	if err := c.ShouldBindJSON(&chat); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input data: " + err.Error()})
 		return
