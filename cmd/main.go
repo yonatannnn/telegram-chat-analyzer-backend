@@ -19,6 +19,10 @@ func main() {
 
 	// Read environment variables
 	mongoURI := os.Getenv("MONGO_URI")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "4000"
+	}
 	if mongoURI == "" {
 		log.Fatal("MONGO_URI is not set")
 	}
@@ -48,7 +52,7 @@ func main() {
 
 	// Run server
 	log.Println("Server running on port 8080")
-	if err := r.Run(":8080"); err != nil {
+	if err := r.Run(":" + port); err != nil {
 		log.Fatalf("Failed to run server: %v", err)
 	}
 }
