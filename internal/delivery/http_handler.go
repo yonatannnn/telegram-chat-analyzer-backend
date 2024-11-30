@@ -39,6 +39,9 @@ func NewMessageHandler(router *gin.Engine, uc usecase.MessageUsecase, repo repos
 	router.POST("/countConsecutiveDays", handler.CountConsecutiveDays)                       // return the number of consecutive days talked
 	router.POST("/relationshipScore", handler.RelationshipScore)
 	router.POST("/currentStreak", handler.CurrentStreak)
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"message": "Welcome to Telegram Chat Analyzer!"})
+	})
 }
 
 func (h *MessageHandler) ProcessMessages(c *gin.Context) {
