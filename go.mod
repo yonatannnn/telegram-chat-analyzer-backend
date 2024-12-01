@@ -1,6 +1,6 @@
 module telegram-chat-analyzer
 
-go 1.23.3
+go 1.20
 
 require (
 	firebase.google.com/go v3.13.0+incompatible
