@@ -7,6 +7,7 @@ import (
 	"telegram-chat-analyzer/internal/repository"
 	"telegram-chat-analyzer/internal/usecase"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -46,6 +47,14 @@ func main() {
 
 	// Set up Gin
 	r := gin.Default()
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Content-Type", "Authorization", "Origin", "Accept"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
 	// Initialize handlers
 	delivery.NewMessageHandler(r, uc, repo, collection)
